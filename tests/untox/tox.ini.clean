@@ -1,0 +1,27 @@
+[tox]
+minversion = 1.6
+skipsdist = True
+envlist = py27,pep8
+
+[testenv]
+usedevelop = True
+
+commands =
+  bash tools/pretty_tox.sh '{posargs}'
+
+[testenv:pep8]
+commands =
+  flake8 {posargs} . foo
+  # Check that .po and .pot files are valid:
+
+[testenv:pylint]
+
+commands = bash tools/lintstack.sh
+
+[testenv:cover]
+commands =
+  python setup.py testr --coverage --testr-args='^(?!.*test.*coverage).*$ --concurrency 1'
+
+[testenv:venv]
+commands =
+  {posargs}
