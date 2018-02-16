@@ -28,6 +28,16 @@ data = re.sub(
             data,
             flags=re.MULTILINE)
 
+# replace any existing sitepackages value as True
+data = re.sub(r'\s*sitepackages.*', '\nsitepackages = True', data)
+
+# adds sitepackages=True to [testenv] section
+data = re.sub(
+            r'^(\[testenv\]\n)(.*)',
+            r'\1sitepackages = True\n\2',
+            data,
+            flags=re.MULTILINE)
+
 f.seek(0)
 f.write(data)
 f.truncate()

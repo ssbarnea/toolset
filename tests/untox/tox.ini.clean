@@ -4,6 +4,7 @@ skipsdist = True
 envlist = py27,pep8
 
 [testenv]
+sitepackages = True
 usedevelop = True
 
 commands =
@@ -25,3 +26,4 @@ commands =
 [testenv:venv]
 commands =
   {posargs}
+sitepackages = True
