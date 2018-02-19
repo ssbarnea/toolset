@@ -18,7 +18,8 @@ data = re.sub(
 
 # remove install_commands
 data = re.sub(r'\s*install_command.*', '', data)
-# remove pip install commands
+
+# remove pip install commands (including multiline)
 data = re.sub(r'(?m)^\s*pip (.*)?install.*\n?', '', data)
 
 # remove deps, single and multiline ones
@@ -41,3 +42,11 @@ data = re.sub(
 f.seek(0)
 f.write(data)
 f.truncate()
+
+# truncates requirement files just in case they are used in a different way
+for reqs in ['requirements.txt', 'test-requirements.txt']:
+    if os.path.isfile(reqs):
+        open(reqs, "w").truncate(0)
+        
+# logs changes made as a diff file
+os.system("git diff | tee untox-diff.log")
