@@ -4,9 +4,8 @@ skipsdist = True
 envlist = py27,pep8
 
 [testenv]
-sitepackages = True
 usedevelop = True
-
+sitepackages = True
 commands =
   bash tools/pretty_tox.sh '{posargs}'
 
@@ -15,14 +14,17 @@ commands =
   flake8 {posargs} . foo
   # Check that .po and .pot files are valid:
 
+sitepackages = True
 [testenv:pylint]
 
 commands = bash tools/lintstack.sh
 
+sitepackages = True
 [testenv:cover]
 commands =
   python setup.py testr --coverage --testr-args='^(?!.*test.*coverage).*$ --concurrency 1'
 
+sitepackages = True
 [testenv:venv]
 commands =
   {posargs}

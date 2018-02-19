@@ -5,7 +5,7 @@ envlist = py27,pep8
 
 [testenv]
 usedevelop = True
-
+sitepackages = False
 commands =
   pip install pip>=9.0.1
   pip install -c{toxinidir}/upper-constraints.txt -r{toxinidir}/requirements.txt -r{toxinidir}/test-requirements.txt

@@ -32,12 +32,12 @@ data = re.sub(
 # replace any existing sitepackages value as True
 data = re.sub(r'\s*sitepackages.*', '\nsitepackages = True', data)
 
-# adds sitepackages=True to [testenv] section
-data = re.sub(
-            r'^(\[testenv\]\n)(.*)',
-            r'\1sitepackages = True\n\2',
-            data,
-            flags=re.MULTILINE)
+# adds sitepackages=True to [testenv*] section(s) it it does not already exists
+pattern = re.compile(r'^\[testenv[^\]\r\n]+](?:\r?\n(?:[^[\r\n].*)?)*',
+                     flags=re.MULTILINE)
+for s in re.findall(pattern, data):
+    if 'sitepackages' not in s:
+        data = data.replace(s, s + 'sitepackages = True\n')
 
 f.seek(0)
 f.write(data)
@@ -47,6 +47,6 @@ f.truncate()
 for reqs in ['requirements.txt', 'test-requirements.txt']:
     if os.path.isfile(reqs):
         open(reqs, "w").truncate(0)
-        
+
 # logs changes made as a diff file
 os.system("git diff | tee untox-diff.log")
